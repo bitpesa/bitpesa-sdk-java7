@@ -44,7 +44,7 @@ public class Application {
 
         Sender sender = new Sender();
         //UUID senderId = createSender(apiClient);
-        //sender.setIf(senderId);
+        //sender.setId(senderId);
         sender.setId(UUID.fromString("058de445-ffff-ffff-ffff-da9c751d14bf"));
 
         PayoutMethodDetails ngnBankDetails = new PayoutMethodDetails();
