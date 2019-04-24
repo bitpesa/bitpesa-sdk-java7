@@ -4,7 +4,7 @@
     <artifactId>bitpesa-sdk-java7</artifactId>
     <packaging>jar</packaging>
     <name>bitpesa-sdk-java7</name>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <url>https://github.com/bitpesa/bitpesa-sdk-java7</url>
     <description>Java 7 library for the BitPesa API</description>
     <scm>
