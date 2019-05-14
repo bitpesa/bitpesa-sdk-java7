@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.UUID;
 
+
+import java.util.HashMap;
+
 public class Application {
     public static String accountValidationExample(ApiClient apiClient) throws ApiException {
         AccountValidationRequest request = new AccountValidationRequest();
@@ -145,7 +148,19 @@ public class Application {
     }
 
     public static void webhookParseExample(ApiClient apiClient) throws ApiException {
-        String webhookContent = "{\n" +
+        String webhookHeaders = "{\n" +
+                "  \"Content-Type\": \"application/json\",\n" +
+                "  \"Authorization-Nonce\": \"1234e\",\n" +
+                "  \"Authorization-Key\": \"Cdirfe8eSwhk6ce0Nyxt/KwbT54fCixASE1Wrx5xV5bsg5oUMY/FcFZKzXtmOqScrUM9PBvCOMvxKxYxzVZdtQ==\",\n" +
+                "  \"Authorization-Signature\": \"Authorization-Signature\",\n" +
+                "  \"Accept-Encoding\": \"gzip;q=1.0,deflate;q=0.6,identity;q=0.3\",\n" +
+                "  \"Accept\": \"*/*\",\n" +
+                "  \"User-Agent\": \"Ruby\",\n" +
+                "  \"Host\": \"http://localhost:4567/\",\n" +
+                "  \"Content-Length\": \"3712\"\n" +
+                "}";
+
+        String webhookBody = "{\n" +
                 "  \"webhook\": \"02b769ff-ffff-ffff-ffff-820d285d76c7\",\n" +
                 "  \"event\": \"transaction.created\",\n" +
                 "  \"object\": {\n" +
@@ -302,23 +317,33 @@ public class Application {
                 "  }\n" +
                 "}";
 
-        Webhook webhook = apiClient.parseResponseString(webhookContent, Webhook.class);
-        if (webhook.getEvent().startsWith("transaction")) {
-            TransactionWebhook transactionWebhook = apiClient.parseResponseString(webhookContent, TransactionWebhook.class);
-            System.out.println(transactionWebhook);
-        } else if (webhook.getEvent().startsWith("recipient")) {
-            RecipientWebhook recipientWebhook = apiClient.parseResponseString(webhookContent, RecipientWebhook.class);
-            System.out.println(recipientWebhook);
-        } else if (webhook.getEvent().startsWith("payout_method")) {
-            PayoutMethodWebhook payoutMethodWebhook = apiClient.parseResponseString(webhookContent, PayoutMethodWebhook.class);
-            System.out.println(payoutMethodWebhook);
-        } else if (webhook.getEvent().startsWith("sender")) {
-            SenderWebhook senderWebhook = apiClient.parseResponseString(webhookContent, SenderWebhook.class);
-            System.out.println(senderWebhook);
-        } else if (webhook.getEvent().startsWith("document")) {
-            DocumentWebhook documentWebhook = apiClient.parseResponseString(webhookContent, DocumentWebhook.class);
-            System.out.println(documentWebhook);
-        }
+        String webhookUrl = "http://localhost:4567/?secret=D++uW4RDSi+34CByfLR56FVZwlMxDZvE4bnUuvC0x96on4YjVfcrfXt3MspRhPi8tpgb+NXc84cGZsCBzYBC6Q==&nonce=1234e";
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+
+        headers.put("Authorization-Nonce", "1234e");
+        headers.put("Authorization-Key", "Cdirfe8eSwhk6ce0Nyxt/KwbT54fCixASE1Wrx5xV5bsg5oUMY/FcFZKzXtmOqScrUM9PBvCOMvxKxYxzVZdtQ==");
+        headers.put("Authorization-Signature", "Authorization-Signature");
+
+        System.out.println(apiClient.validateWebhookRequest(webhookUrl, webhookBody, headers));
+
+        // Webhook webhook = apiClient.parseResponseString(webhookBody, Webhook.class);
+        // if (webhook.getEvent().startsWith("transaction")) {
+        //     TransactionWebhook transactionWebhook = apiClient.parseResponseString(webhookContent, TransactionWebhook.class);
+        //     System.out.println(transactionWebhook);
+        // } else if (webhook.getEvent().startsWith("recipient")) {
+        //     RecipientWebhook recipientWebhook = apiClient.parseResponseString(webhookContent, RecipientWebhook.class);
+        //     System.out.println(recipientWebhook);
+        // } else if (webhook.getEvent().startsWith("payout_method")) {
+        //     PayoutMethodWebhook payoutMethodWebhook = apiClient.parseResponseString(webhookContent, PayoutMethodWebhook.class);
+        //     System.out.println(payoutMethodWebhook);
+        // } else if (webhook.getEvent().startsWith("sender")) {
+        //     SenderWebhook senderWebhook = apiClient.parseResponseString(webhookContent, SenderWebhook.class);
+        //     System.out.println(senderWebhook);
+        // } else if (webhook.getEvent().startsWith("document")) {
+        //     DocumentWebhook documentWebhook = apiClient.parseResponseString(webhookContent, DocumentWebhook.class);
+        //     System.out.println(documentWebhook);
+        // }
     }
 
     public static UUID createSender(ApiClient apiClient) throws Exception {
@@ -403,17 +428,17 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
         ApiClient apiClient = new ApiClient();
-        apiClient.setApiKey("<key>");
-        apiClient.setApiSecret("<secret>");
-        apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+        apiClient.setApiKey("Cdirfe8eSwhk6ce0Nyxt/KwbT54fCixASE1Wrx5xV5bsg5oUMY/FcFZKzXtmOqScrUM9PBvCOMvxKxYxzVZdtQ==");
+        apiClient.setApiSecret("D++uW4RDSi+34CByfLR56FVZwlMxDZvE4bnUuvC0x96on4YjVfcrfXt3MspRhPi8tpgb+NXc84cGZsCBzYBC6Q==");
+        apiClient.setBasePath("http://localhost:3002/v1");
 
-        //accountValidationExample(apiClient);
+//        accountValidationExample(apiClient);
         //createTransactionExample(apiClient);
         //createAndFundTransactionExample(apiClient);
         //getTransactionByExternalId(apiClient);
         //getTransactionErrorMessageExample(apiClient);
-        //webhookParseExample(apiClient);
-        //createSender(apiClient);
+        webhookParseExample(apiClient);
+//        createSender(apiClient);
         //getSenderByExternalId(apiClient);
         //updateSender(apiClient);
     }
