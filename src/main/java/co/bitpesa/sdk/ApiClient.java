@@ -42,7 +42,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -1076,44 +1075,44 @@ public class ApiClient {
         return request;
     }
 
-    public StringBuilder signRequest(String url, String nonce, String method, String bodyStr) {
-      final String hmacSha512 = "HmacSHA512";
+    public StringBuilder signRequest(String url, String nonce, String method, String bodyStr) throws ApiException {
+        final String hmacSha512 = "HmacSHA512";
+        StringBuilder hmacResult;
 
-      MessageDigest md = MessageDigest.getInstance("SHA-512");
-      byte[] sha512 = md.digest(bodyStr.getBytes("UTF-8"));
-      StringBuilder md5HashOfBody = new StringBuilder(sha512.length * 2);
-      for (int i = 0; i < sha512.length; i++) {
-          int intVal = sha512[i] & 0xff;
-          if (intVal < 0x10) {
-              md5HashOfBody.append("0");
-          }
-          md5HashOfBody.append(Integer.toHexString(intVal));
-      }
-      String type = "application/json";
-      String signature = String.format("%s&%s&%s&%s", nonce, method, url, md5HashOfBody.toString());
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            byte[] sha512 = md.digest(bodyStr.getBytes("UTF-8"));
+            StringBuilder md5HashOfBody = new StringBuilder(sha512.length * 2);
+            for (int i = 0; i < sha512.length; i++) {
+                int intVal = sha512[i] & 0xff;
+                if (intVal < 0x10) {
+                    md5HashOfBody.append("0");
+                }
+                md5HashOfBody.append(Integer.toHexString(intVal));
+            }
 
-      byte[] byteKey = getApiSecret().getBytes("UTF-8");
-      Mac sha512_HMAC = Mac.getInstance(hmacSha512);
-      SecretKeySpec keySpec = new SecretKeySpec(byteKey, hmacSha512);
-      sha512_HMAC.init(keySpec);
-      byte[] mac_data = sha512_HMAC.doFinal(signature.getBytes("UTF-8"));
+            String type = "application/json";
+            String signature = String.format("%s&%s&%s&%s", nonce, method, url, md5HashOfBody.toString());
 
-      StringBuilder hmacResult = new StringBuilder(mac_data.length * 2);
-      for (int i = 0; i < mac_data.length; i++) {
-          int intVal = mac_data[i] & 0xff;
-          if (intVal < 0x10) {
-              hmacResult.append("0");
-          }
-          hmacResult.append(Integer.toHexString(intVal));
-      }
+            byte[] byteKey = getApiSecret().getBytes("UTF-8");
+            Mac sha512_HMAC = Mac.getInstance(hmacSha512);
+            SecretKeySpec keySpec = new SecretKeySpec(byteKey, hmacSha512);
+            sha512_HMAC.init(keySpec);
+            byte[] mac_data = sha512_HMAC.doFinal(signature.getBytes("UTF-8"));
 
+            hmacResult = new StringBuilder(mac_data.length * 2);
+            for (int i = 0; i < mac_data.length; i++) {
+                int intVal = mac_data[i] & 0xff;
+                if (intVal < 0x10) {
+                    hmacResult.append("0");
+                }
+                hmacResult.append(Integer.toHexString(intVal));
+            }
+        } catch (Exception e) {
+            throw new ApiException(e);
+        }
 
-
-      try {
         return hmacResult;
-      } catch (NoSuchAlgorithmException e) {
-        System.out.println("Linnie");
-      }
     }
 
     /**
