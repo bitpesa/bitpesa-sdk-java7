@@ -173,9 +173,9 @@ public class Application {
 
         Map<String, String> webhookHeaders = new HashMap<String, String>();
 
-        webhookHeaders.put("Authorization-Nonce", "c54eee3a-50ac-4732-9f4e-aedfec10bd1b");
-        webhookHeaders.put("Authorization-Key", "Cdirfe8eSwhk6ce0Nyxt/KwbT54fCixASE1Wrx5xV5bsg5oUMY/FcFZKzXtmOqScrUM9PBvCOMvxKxYxzVZdtQ==");
-        webhookHeaders.put("Authorization-Signature", "4a04b740e0d745c3b0bb0587891600944e6edbc4dce29ab229ddd253026cda9fa42669d54ef6b52feb14f150d928aaba14701e096bdcbda8e20c7154b83aace5");
+        webhookHeaders.put("Authorization-Nonce", "<nonce>");
+        webhookHeaders.put("Authorization-Key", "<key>");
+        webhookHeaders.put("Authorization-Signature", "<signature>");
 
         String webhookBody = "{\n" +
                 "  \"webhook\": \"02b769ff-ffff-ffff-ffff-820d285d76c7\",\n" +
