@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>co.bitpesa.sdk</groupId>
-    <artifactId>bitpesa-sdk-java7</artifactId>
+    <groupId>com.transferzero.sdk</groupId>
+    <artifactId>transferzero-sdk-java7</artifactId>
     <packaging>jar</packaging>
-    <name>bitpesa-sdk-java7</name>
-    <version>0.1.2-SNAPSHOT</version>
-    <url>https://github.com/bitpesa/bitpesa-sdk-java7</url>
-    <description>Java 7 library for the BitPesa API</description>
+    <name>transferzero-sdk-java7</name>
+    <version>1.0.0-SNAPSHOT</version>
+    <url>https://github.com/transferzero/transferzero-sdk-java7</url>
+    <description>Java 7 library for the TransferZero API</description>
     <scm>
-        <connection>scm:git:https://github.com/bitpesa/bitpesa-sdk-java7.git</connection>
-        <developerConnection>scm:git:git@github.com:bitpesa/bitpesa-sdk-java7.git</developerConnection>
-        <url>https://github.com/bitpesa/bitpesa-sdk-java7</url>
+        <connection>scm:git:https://github.com/transferzero/transferzero-sdk-java7.git</connection>
+        <developerConnection>scm:git:git@github.com:transferzero/transferzero-sdk-java7.git</developerConnection>
+        <url>https://github.com/transferzero/transferzero-sdk-java7</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -24,10 +24,10 @@
 
     <developers>
         <developer>
-            <name>BitPesa</name>
-            <email>info@bitpesa.co</email>
-            <organization>BitPesa</organization>
-            <organizationUrl>https://github.com/bitpesa/</organizationUrl>
+            <name>TransferZero</name>
+            <email>info@transferzero.com</email>
+            <organization>TransferZero</organization>
+            <organizationUrl>https://github.com/transferzero/</organizationUrl>
         </developer>
     </developers>
 
